@@ -2,9 +2,11 @@ const puppeteer = require("puppeteer-extra");
 const fs = require('fs');
 const { dbConnection, StoreDataToDB } = require("./mongoooo");
 let browser = null
+let emmitTweet = {};
 //each tweet come here and and can Store data
 let post = async function (comment_object) {
-  console.log(comment_object);
+  emmitTweet(comment_object)
+  // console.log(comment_object);
 };
 
 let getIdFromTwitterUrl = function (url) {
@@ -14,6 +16,7 @@ let getIdFromTwitterUrl = function (url) {
 let yOffsetMap = [];
 let visitedUrls = [];
 let tweetMap = {};
+
 
 let max_tweets_date = ""
 
@@ -201,8 +204,9 @@ async function getSubTweetUrls(page) {
     .map((f) => "https://twitter.com" + f);
 }
 
-let run = async function ({ base_url, max_date, path }) {
+exports.runScrapper = async  ({ base_url, max_date, path },callback) =>{
   max_tweets_date = max_date
+  emmitTweet=callback
   browser = await puppeteer.launch({
     headless: false,
     executablePath: path,
@@ -314,9 +318,3 @@ let recursiveCommentsCrawler = async function (
   return true;
 };
 
-run(
-  {
-    base_url: "https://twitter.com/alireza3529",
-    max_date: "2023-02-01",
-    path: './ch/chrome-win/chrome.exe'
-  });
