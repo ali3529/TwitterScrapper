@@ -1,6 +1,4 @@
 const puppeteer = require("puppeteer-extra");
-const fs = require('fs');
-const { dbConnection, StoreDataToDB } = require("./mongoooo");
 let browser = null
 let emmitTweet = {};
 //each tweet come here and and can Store data
